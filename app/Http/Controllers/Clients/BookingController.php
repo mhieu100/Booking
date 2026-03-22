@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\History;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\BookingConfirmationMail;
+use App\Http\Controllers\Clients\BlogController;
 
 class BookingController extends Controller
 {
@@ -69,8 +70,41 @@ class BookingController extends Controller
         $child = $request->numchildren;
 
         $tour = DB::table('tbl_tours')->where('tourid',$id)->first();
-
         $total = ($adult * $tour->priceadult) + ($child * $tour->pricechild);
+        // 1. KIỂM TRA XEM TOUR ĐÃ QUÁ HẠN CHƯA
+    if (\Carbon\Carbon::parse($tour->startdate)->endOfDay()->isPast()) {
+        return back()->with('error', 'Rất tiếc, tour này đã qua ngày khởi hành. Vui lòng liên hệ hotline để biết lịch mới!');
+    }
+
+    // 2. KIỂM TRA TOUR CÓ BỊ TẠM NGƯNG KHÔNG
+    if ($tour->availability == 0) {
+        return back()->with('error', 'Tour này hiện đang tạm ngưng nhận khách.');
+    }
+
+    // 3. KIỂM TRA SỐ LƯỢNG CHỖ TRỐNG
+    $totalPassengers = $request->numadults + $request->numchildren;
+    if ($tour->quantity < $totalPassengers) {
+        return back()->with('error', 'Số chỗ trống không đủ. Chuyến này chỉ còn ' . $tour->quantity . ' chỗ.');
+    }
+
+// 2. Xử lý mã giảm giá (Nếu có)
+$couponCode = $request->input('coupon_code_hidden'); // Lấy từ input hidden khi subit form
+if($couponCode) {
+    $promotion = DB::table('tbl_promotion')
+        ->where('code', $couponCode)
+        ->where('quantity', '>', 0)
+        ->first();
+        
+    if($promotion) {
+        $discountAmount = $total * ($promotion->discount_percent / 100);
+        $total = $total - $discountAmount;
+        
+        // Trừ số lượng mã giảm giá trong DB
+        DB::table('tbl_promotion')->where('promotionid', $promotion->promotionid)->decrement('quantity');
+    }
+}
+
+       
 
         $deposit = round($total * 0.3); // Làm tròn đến hàng nghìn
 
@@ -434,5 +468,30 @@ public function cancel(Request $request, $id)
 
         return view('Clients.booking-detail',compact('booking'));
     }
+// KIỂM TRA MÃ GIẢM GIÁ (AJAX)
+    public function checkCoupon(Request $request) {
+    $code = $request->coupon_code;
+    $now = now();
+
+    $coupon = DB::table('tbl_promotion')
+        ->where('code', $code)
+        ->where('startdate', '<=', $now)
+        ->where('enddate', '>=', $now)
+        ->where('quantity', '>', 0)
+        ->first();
+
+    if ($coupon) {
+        return response()->json([
+            'success' => true,
+            'discount' => $coupon->discount_percent,
+            'message' => "Áp dụng mã thành công! Giảm {$coupon->discount_percent}%"
+        ]);
+    }
+
+    return response()->json([
+        'success' => false,
+        'message' => 'Mã giảm giá không tồn tại, hết hạn hoặc hết lượt dùng.'
+    ]);
+}
 
 }

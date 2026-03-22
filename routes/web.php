@@ -18,14 +18,16 @@ use App\Http\Controllers\Clients\InformationController; // Sửa viết hoa ch�
 use App\Http\Controllers\Clients\LoginController;
 use App\Http\Controllers\Clients\SocialController;
 use App\Http\Controllers\Clients\SearchController;
-use App\Http\Controllers\Clients\ReviewController;
+use App\Http\Controllers\Clients\ReviewController as ReviewController; // Thêm use cho ReviewController
+use App\Http\Controllers\Clients\ChatController as ClientsChatController; // Thêm use cho ChatController
 
 // Admin Controllers
 use App\Http\Controllers\Admin\TourController;
 use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\DashboardController;
-
+use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
+use App\Http\Controllers\Admin\BlogController as AdminBlogController; // Thêm use cho BlogController của Admin
 
 use Illuminate\Support\Facades\Schedule; 
 
@@ -44,8 +46,8 @@ Route::get('/destination', [DestinationController::class, 'index'])->name('desti
 Route::get('/tour-detail/{id}', [TourdetailController::class, 'index'])->name('tour-detail');
 Route::get('/travel-guides', [TravelGuidesController::class, 'index'])->name('travel-guides');
 Route::get('/testimonial', [TestimonialController::class, 'index'])->name('testimonial');
-Route::get('/blogs', [BlogsController::class, 'index'])->name('blogs');
-Route::get('/blog-details', [BlogDetailsController::class, 'index'])->name('blog-details');
+
+
 Route::get('/search', [SearchController::class, 'search'])->name('search');
 
 Route::post('/review/store', [ReviewController::class, 'store'])->name('review.store');
@@ -77,7 +79,10 @@ Route::controller(InformationController::class)->group(function () {
     Route::post('/upload-avatar', 'uploadAvatar')->name('user.avatar');
 });
 
-
+Route::middleware('user')->controller(ClientsChatController::class)->group(function () {
+    Route::post('/chat/send', [\App\Http\Controllers\Clients\ChatController::class, 'sendMessage']);
+Route::get('/chat/fetch-messages', [\App\Http\Controllers\Clients\ChatController::class, 'fetchMessages']);
+});
 /* =======================================================
    3. CLIENT BOOKING (Bảo vệ bởi middleware 'user')
 ======================================================= */
@@ -93,10 +98,19 @@ Route::middleware('user')->controller(ClientsBookingController::class)->group(fu
     Route::get('/momo-payment/{id}', 'momo_payment');
     Route::get('/momo-return/{id}', 'momo_return');
 
+    Route::post('/check-coupon', [App\Http\Controllers\Clients\BookingController::class, 'checkCoupon'])->name('coupon.check');
+
     Route::get('/booking-cancel/{id}', [App\Http\Controllers\Clients\BookingController::class, 'cancel'])->name('booking.cancel');
 });
+Route::prefix('blogs')->controller(BlogsController::class)->group(function () {
+
+    Route::get('/', 'index')->name('blogs');
+
+    Route::get('/{slug}', 'show')->name('blog.detail');
+    Route::get('/search/ajax', 'search');
 
 
+});
 /* =======================================================
    4. ADMIN DASHBOARD (Bảo vệ bởi middleware 'admin')
 ======================================================= */
@@ -132,6 +146,32 @@ Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
         Route::get('/remove-admin/{id}', 'removeAdmin')->name('removeAdmin'); 
     });
 
+    // Quản lý Reviews
+Route::prefix('reviews')->name('reviews.')->controller(AdminReviewController::class)->group(function () {
+        Route::get('/', 'index')->name('index'); // Đường dẫn sẽ là admin/reviews
+        Route::post('/toggle-status/{id}', 'toggleStatus')->name('toggle');
+        Route::post('/reply/{id}', 'reply')->name('reply');
+    });
+
+// Quản lý Mã giảm giá (Promotions)
+    Route::prefix('promotions')->name('promotions.')->controller(\App\Http\Controllers\Admin\PromotionController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::post('/store', 'store')->name('store');
+        Route::post('/update/{id}', 'update')->name('update');
+        Route::delete('/delete/{id}', 'destroy')->name('destroy');
+    });
+
+Route::prefix('chats')->name('chats.')->controller(\App\Http\Controllers\Admin\ChatController::class)->group(function () {
+        Route::get('/', 'index')->name('index'); // Tạo URL: /admin/chats
+        Route::get('/fetch/{userid}', 'fetchMessages')->name('fetch'); // Tạo URL: /admin/chats/fetch/1
+        Route::post('/send', 'sendMessage')->name('send'); // Tạo URL: /admin/chats/send
+    });
+
+    Route::resource('blogs', AdminBlogController::class);
+    Route::post('blogs/upload-image', [AdminBlogController::class, 'uploadImage'])->name('blogs.upload');
+    Route::get('categories-data', [AdminBlogController::class, 'getCategories'])->name('categories.get');
+    Route::post('categories-store', [AdminBlogController::class, 'storeCategory'])->name('categories.store');
+    Route::delete('categories-delete', [AdminBlogController::class, 'destroyCategory'])->name('categories.delete');
 });
 
 
@@ -147,6 +187,12 @@ Route::controller(SocialController::class)->group(function () {
 /* =======================================================
    6. Tự Dộng nhắc lịch
 ======================================================= */
+// API cho Chatbot
+Route::middleware('throttle:10,1')->group(function () {
+Route::get('/chat/fetch', [\App\Http\Controllers\Clients\ChatController::class, 'fetchMessages']);
+Route::post('/chat/send', [\App\Http\Controllers\Clients\ChatController::class, 'sendMessage']);
+});
+
 Schedule::command('mail:send-tour-reminders')->dailyAt('08:00');
 
 Route::get('/404', function () {

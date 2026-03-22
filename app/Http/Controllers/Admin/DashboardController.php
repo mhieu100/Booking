@@ -27,21 +27,29 @@ $pendingBookings = DB::table('tbl_bookings')
 
 $totalRevenue = DB::table('tbl_bookings')
 ->where('bookingstatus','confirmed')
-->sum('totalprice');
+->sum('paid_amount');
 
+// Tính tổng tiền chưa thu của các đơn hàng chưa bị hủy
+$totalDebt = DB::table('tbl_bookings')
+    ->where('bookingstatus', '!=', 'cancelled')
+    ->sum(DB::raw('totalprice - paid_amount'));
+
+// Nhớ truyền 'totalDebt' vào compact() ở cuối hàm.
 
 // =============================
 // BIỂU ĐỒ DOANH THU 12 THÁNG
 // =============================
 
 $monthlyRevenue = [];
+$currentYear = date('Y'); // Thêm lấy năm hiện tại
 
 for($i=1;$i<=12;$i++){
 
 $revenue = DB::table('tbl_bookings')
 ->whereMonth('bookingdate',$i)
+->whereYear('bookingdate', $currentYear) // Lọc thêm theo năm hiện tại
 ->where('bookingstatus','confirmed')
-->sum('totalprice');
+->sum('paid_amount');
 
 $monthlyRevenue[] = $revenue;
 
@@ -80,7 +88,7 @@ $topTours = DB::table('tbl_bookings')
 
 DB::raw('count(*) as total_bookings'),
 
-DB::raw('sum(totalprice) as total_earned'),
+DB::raw('sum(paid_amount) as total_earned'),
 
 'tbl_tours.title'
 
@@ -179,7 +187,8 @@ return view('admin.dashboard',compact(
 'recentBookings',
 'histories',
 'monthlyRevenue',
-'statusChart'
+'statusChart',
+'totalDebt'
 
 ));
 

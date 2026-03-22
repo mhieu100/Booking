@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 // Đổi từ Home sang gọi thẳng Model Tours chúng ta vừa làm
 use App\Models\Clients\Tours; 
-
+use App\Models\Clients\Blog;
+use Illuminate\Support\Facades\DB; // Thêm thư viện DB để truy vấn bảng reviews
 class HomeController extends Controller
 {
     public function index()
@@ -19,7 +20,19 @@ class HomeController extends Controller
                       ->orderBy('tourid', 'desc')
                       ->take(8)
                       ->get();
-
-        return view('Clients.home', compact('title', 'tours'));
+        $blogs = Blog::where('is_active', 1)
+        ->latest()
+        ->take(3) // lấy 3 bài mới
+        ->get();
+$testimonials = DB::table('tbl_reviews')
+        ->join('tbl_users', 'tbl_reviews.userid', '=', 'tbl_users.userid')
+        ->join('tbl_tours', 'tbl_reviews.tourid', '=', 'tbl_tours.tourid')
+        ->where('tbl_reviews.status', 1)
+        ->select('tbl_reviews.*', 'tbl_users.username', 'tbl_users.avatar', 'tbl_tours.title as tour_name', 'tbl_tours.destination')
+        ->orderBy('tbl_reviews.rating', 'desc') // Ưu tiên các đánh giá 5 sao lên đầu
+        ->limit(8)
+        ->get();
+        return view('Clients.home', compact('title', 'tours', 'blogs', 'testimonials'));
     }
+    
 }

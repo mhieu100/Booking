@@ -192,229 +192,162 @@
                             <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d96777.16150026117!2d-74.00840582560909!3d40.71171357405996!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sbd!4v1706508986625!5m2!1sen!2sbd" style="border:0; width: 100%;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                         </div>
 
-                        <h3>Clients Reviews</h3>
-                        <div class="clients-reviews bgc-black mt-30 mb-60">
-                            <div class="left">
-                                <b>4.8</b>
-                                <span>(586 reviews)</span>
-                                <div class="ratting">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                </div>
-                            </div>
-                            <div class="right">
-                                <div class="ratting-item">
-                                    <span class="title">Services</span>
-                                    <span class="line"><span style="width: 80%;"></span></span>
-                                    <div class="ratting">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                    </div>
-                                </div>
-                                <div class="ratting-item">
-                                    <span class="title">Guides</span>
-                                    <span class="line"><span style="width: 70%;"></span></span>
-                                    <div class="ratting">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                    </div>
-                                </div>
-                                <div class="ratting-item">
-                                    <span class="title">Price</span>
-                                    <span class="line"><span style="width: 80%;"></span></span>
-                                    <div class="ratting">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                    </div>
-                                </div>
-                                <div class="ratting-item">
-                                    <span class="title">Safety</span>
-                                    <span class="line"><span style="width: 80%;"></span></span>
-                                    <div class="ratting">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                    </div>
-                                </div>
-                                <div class="ratting-item">
-                                    <span class="title">Foods</span>
-                                    <span class="line"><span style="width: 80%;"></span></span>
-                                    <div class="ratting">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                    </div>
-                                </div>
-                                <div class="ratting-item">
-                                    <span class="title">Hotels</span>
-                                    <span class="line"><span style="width: 80%;"></span></span>
-                                    <div class="ratting">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <h3>Clients Comments</h3>
-                        <div class="comments mt-30 mb-60">
-                            <div class="comment-body" data-aos="fade-up" data-aos-duration="1500" data-aos-offset="50">
-                                <div class="author-thumb">
-                                    <img src="assets/images/blog/comment-author1.jpg" alt="Author">
-                                </div>
-                                <div class="content">
-                                    <h6>Lonnie B. Horwitz</h6>
-                                    <div class="ratting">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                    </div>
-                                    <span class="time">Venice, Rome and Milan – 9 Days 8 Nights</span>
-                                    <p>Tours and travels play a crucial role in enriching lives by offering unique experiences, cultural exchanges, and the joy of exploration.</p>
-                                    <a class="read-more" href="#">Reply <i class="far fa-angle-right"></i></a>
-                                </div>
-                            </div>
-                            <div class="comment-body comment-child" data-aos="fade-up" data-aos-duration="1500" data-aos-offset="50">
-                                <div class="author-thumb">
-                                    <img src="assets/images/blog/comment-author2.jpg" alt="Author">
-                                </div>
-                                <div class="content">
-                                    <h6>William G. Edwards</h6>
-                                    <div class="ratting">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                    </div>
-                                    <span class="time">Venice, Rome and Milan – 9 Days 8 Nights</span>
-                                    <p>Tours and travels play a crucial role in enriching lives by offering unique experiences, cultural exchanges, and the joy of exploration.</p>
-                                    <a class="read-more" href="#">Reply <i class="far fa-angle-right"></i></a>
-                                </div>
-                            </div>
-                            <div class="comment-body" data-aos="fade-up" data-aos-duration="1500" data-aos-offset="50">
-                                <div class="author-thumb">
-                                    <img src="assets/images/blog/comment-author3.jpg" alt="Author">
-                                </div>
-                                <div class="content">
-                                    <h6>Jaime B. Wilson</h6>
-                                    <div class="ratting">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                    </div>
-                                    <span class="time">Venice, Rome and Milan – 9 Days 8 Nights</span>
-                                    <p>Tours and travels play a crucial role in enriching lives by offering unique experiences, cultural exchanges, and the joy of exploration.</p>
-                                    <a class="read-more" href="#">Reply <i class="far fa-angle-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
+<h3>Clients Reviews</h3>
+<div class="clients-reviews bgc-black mt-30 mb-60">
+    <div class="left">
+        <b>{{ $averageRating }}</b>
+        <span>({{ $totalReviews }} reviews)</span>
+        <div class="ratting">
+            @for($i = 1; $i <= 5; $i++)
+                @if($i <= round($averageRating))
+                    <i class="fas fa-star"></i>
+                @else
+                    <i class="far fa-star"></i>
+                @endif
+            @endfor
+        </div>
+    </div>
+    
+    <div class="right">
+        @for($i = 5; $i >= 1; $i--)
+        <div class="ratting-item">
+            <span class="title">{{ $i }} Sao</span>
+            
+            <span class="line"><span style="width: {{ $ratingPercentages[$i] ?? 0 }}%;"></span></span>
+            
+            <div class="ratting text-white" style="font-size: 14px; margin-left: 10px;">
+                ({{ $ratingCounts[$i] ?? 0 }})
+            </div>
+        </div>
+        @endfor
+    </div>
+</div>
+<h3>Clients Comments ({{ $totalReviews }})</h3>
+<div class="comments mt-30 mb-60">
+    
+    @forelse($reviews as $review)
+        <div class="comment-body" data-aos="fade-up" data-aos-duration="1500" data-aos-offset="50">
+<div class="author-thumb">
+    <img src="{{ isset($review->user->avatar) && $review->user->avatar ? asset('clients/assets/images/avatars/' . $review->user->avatar) : asset('clients/assets/images/avatars/default.png') }}" alt="Author">
+</div>
+            <div class="content">
+                <h6>{{ $review->user->name ?? $review->user->username ?? 'Khách hàng' }}</h6>
+                
+                <div class="ratting">
+                    @for($i = 1; $i <= 5; $i++)
+                        @if($i <= $review->rating)
+                            <i class="fas fa-star"></i>
+                        @else
+                            <i class="far fa-star"></i>
+                        @endif
+                    @endfor
+                </div>
+                
+                <span class="time">{{ \Carbon\Carbon::parse($review->createdat)->format('d/m/Y H:i') }}</span>
+                
+                <p>{{ $review->comment }}</p>
+                @if(!empty($review->admin_reply))
+    <div class="admin-reply-box mt-10 p-3" style="background-color: #f8f9fa; border-left: 3px solid #ff6a00; border-radius: 5px;">
+        <h6 style="color: #ff6a00; font-size: 14px; margin-bottom: 5px;"><i class="fas fa-headset"></i> Phản hồi từ quản trị viên:</h6>
+        <p class="mb-0" style="font-size: 14px;">{{ $review->admin_reply }}</p>
+    </div>
+@endif
+                
+            </div>
+        </div>
+    @empty
+        <div class="alert alert-info">
+            Chưa có đánh giá nào cho tour này. Hãy là người đầu tiên để lại nhận xét!
+        </div>
+    @endforelse
+
+</div>
                         <!-- Đánh giá và bình luận  FROM-->
-                        <h3>Add Reviews</h3>
+<hr class="mt-50 mb-40">
+
+@if(session('success'))
+    <div class="alert alert-success">{{ session('success') }}</div>
+@endif
+@if(session('error'))
+    <div class="alert alert-danger">{{ session('error') }}</div>
+@endif
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul class="mb-0">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+<h3>Add Reviews</h3>
+
 @if(session()->has('userid'))
-
-<form action="{{ route('review.store') }}" method="post">
-@csrf
-
-<input type="hidden" name="tourid" value="{{ $tourDetail->tourid }}">
-
-<div class="comment-review-wrap">
-
-<div class="comment-ratting-item">
-<span class="title">Đánh giá tour</span>
-
-<div class="form-group">
-<select name="rating" class="form-control" required>
-
-<option value="5">⭐⭐⭐⭐⭐ (5 sao)</option>
-<option value="4">⭐⭐⭐⭐ (4 sao)</option>
-<option value="3">⭐⭐⭐ (3 sao)</option>
-<option value="2">⭐⭐ (2 sao)</option>
-<option value="1">⭐ (1 sao)</option>
-
-</select>
-</div>
-
-</div>
-
-</div>
-
-<hr class="mt-30 mb-40">
-
-<h5>Leave Feedback</h5>
-
-<div class="row gap-20 mt-20">
-
-<div class="col-md-6">
-<div class="form-group">
-<label>Name</label>
-<input type="text" class="form-control" value="{{ session('username') ?? '' }}" disabled>
-</div>
-</div>
-
-<div class="col-md-6">
-<div class="form-group">
-<label>Email</label>
-<input type="email" class="form-control" value="{{ session('email') ?? '' }}" disabled>
-</div>
-</div>
-
-<div class="col-md-12">
-<div class="form-group">
-<label>Comments</label>
-
-<textarea name="comment" class="form-control" rows="5" required></textarea>
-
-</div>
-</div>
-
-<div class="col-md-12">
-<div class="form-group mb-0">
-
-<button type="submit" class="theme-btn bgc-secondary style-two">
-
-<span data-hover="Submit reviews">Submit reviews</span>
-
-<i class="fal fa-arrow-right"></i>
-
-</button>
-
-</div>
-</div>
-
-</div>
-
-</form>
+    
+    @if($hasBooked)
+        <form action="{{ route('review.store') }}" method="post" class="mt-30">
+            @csrf
+            <input type="hidden" name="tourid" value="{{ $tourDetail->tourid }}">
+            
+            <div class="comment-review-wrap">
+                <div class="comment-ratting-item">
+                    <span class="title">Đánh giá tour</span>
+                    <div class="form-group">
+                        <select name="rating" class="form-control" required>
+                            <option value="5">⭐⭐⭐⭐⭐ (5 sao)</option>
+                            <option value="4">⭐⭐⭐⭐ (4 sao)</option>
+                            <option value="3">⭐⭐⭐ (3 sao)</option>
+                            <option value="2">⭐⭐ (2 sao)</option>
+                            <option value="1">⭐ (1 sao)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <hr class="mt-30 mb-40">
+            <h5>Leave Feedback</h5>
+            <div class="row gap-20 mt-20">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" class="form-control" value="{{ session('username') ?? '' }}" disabled>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control" value="{{ session('email') ?? '' }}" disabled>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label>Comments</label>
+                        <textarea name="comment" class="form-control" rows="5" placeholder="Chia sẻ trải nghiệm của bạn về tour này..." required></textarea>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group mb-0">
+                        <button type="submit" class="theme-btn bgc-secondary style-two">
+                            <span data-hover="Submit reviews">Submit reviews</span>
+                            <i class="fal fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    @else
+        <div class="alert alert-info mt-30">
+            <i class="fas fa-info-circle"></i> Bạn cần đặt và trải nghiệm tour này để có thể viết đánh giá.
+        </div>
+    @endif
 
 @else
-
-<div class="alert alert-warning">
-Vui lòng <a href="{{ route('login') }}">đăng nhập</a> để đánh giá tour.
-</div>
-
+    <div class="alert alert-warning mt-30">
+        <i class="fas fa-exclamation-triangle"></i> Vui lòng <a href="{{ route('login') }}" style="text-decoration: underline; font-weight: bold;">đăng nhập</a> để đánh giá tour.
+    </div>
 @endif
+
                     </div>
                     <div class="col-lg-4 col-md-8 col-sm-10 rmt-75">
                         <div class="blog-sidebar tour-sidebar">
@@ -450,22 +383,41 @@ Vui lòng <a href="{{ route('login') }}">đăng nhập</a> để đánh giá tou
                                            
                                         </li>
                                     </ul>
-@if(session()->has('userid'))
+                                    @php
+                                        // Kiểm tra 3 điều kiện: Quá hạn, Hết chỗ, Tạm đóng
+                                        $isPast = \Carbon\Carbon::parse($tourDetail->startdate)->endOfDay()->isPast();
+                                        $isFull = $tourDetail->quantity <= 0;
+                                        $isClosed = $tourDetail->availability == 0;
+                                    @endphp
+                                    
+                                    @if($isPast || $isFull || $isClosed)
+                                        <div class="alert alert-warning mt-15 mb-15 p-2 text-center" style="font-size: 14px; border-radius: 5px;">
+                                            @if($isPast)
+                                                <b class="text-danger"><i class="fas fa-clock"></i> Tour đã khởi hành</b><br>
+                                                Vui lòng liên hệ để biết lịch trình mới.
+                                            @elseif($isFull)
+                                                <b class="text-danger"><i class="fas fa-users-slash"></i> Đã hết chỗ</b><br>
+                                                Tour này đã nhận đủ số lượng khách.
+                                            @else
+                                                <b class="text-danger"><i class="fas fa-ban"></i> Đang tạm ngưng</b><br>
+                                                Tour tạm thời không nhận thêm khách.
+                                            @endif
+                                        </div>
 
-<a href="{{ route('booking.index', ['id' => $tourDetail->tourid]) }}"
-class="theme-btn style-two w-100 mt-15 mb-5">
-Đặt ngay
-</a>
-
-@else
-
-<button type="button" onclick="showLoginNotification()" 
-class="theme-btn style-two w-100 mt-15 mb-5">
-Đặt ngay
-</button>
-
-@endif
-                                    <div class="text-center">
+                                        <a href="tel:0352789556" class="theme-btn w-100 mt-10 mb-5 text-center" style="background: #6c757d; color: white;">
+                                            <i class="fas fa-phone-alt"></i> Liên hệ tư vấn
+                                        </a>
+                                    @else
+                                        @if(session()->has('userid'))
+                                            <a href="{{ route('booking.index', ['id' => $tourDetail->tourid]) }}" class="theme-btn style-two w-100 mt-15 mb-5 text-center">
+                                                Đặt ngay
+                                            </a>
+                                        @else
+                                            <button type="button" onclick="showLoginNotification()" class="theme-btn style-two w-100 mt-15 mb-5 text-center">
+                                                Đặt ngay
+                                            </button>
+                                        @endif
+                                    @endif <div class="text-center mt-10">
                                         <a href="{{ route('contact') }}">Bạn cần hỗ trợ?</a>
                                     </div>
                                 </form>
@@ -474,11 +426,10 @@ class="theme-btn style-two w-100 mt-15 mb-5">
                             <div class="widget widget-contact" data-aos="fade-up" data-aos-duration="1500" data-aos-offset="50">
                                 <h5 class="widget-title">Cần trợ giúp?</h5>
                                 <ul class="list-style-one">
-                                    <li><i class="far fa-envelope"></i> <a href="emilto:helpxample@gmail.com">Goviet@gmail.com</a></li>
-                                    <li><i class="far fa-phone-volume"></i> <a href="callto:+000(123)45688">+000 (123) 456 88</a></li>
+                                    <li><i class="far fa-envelope"></i> <a href="mailto:Goviet@gmail.com">Goviet@gmail.com</a></li>
+                                    <li><i class="far fa-phone-volume"></i> <a href="callto:+0352789556">+84 352 789 556</a></li>
                                 </ul>
                             </div>
-                        
                         </div>
                     </div>
                 </div>

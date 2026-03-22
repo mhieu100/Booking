@@ -78,15 +78,12 @@
 
                     <div class="form-group">
                         <label for="tel">Số điện thoại*</label>
-                        <input type="tel" id="number" placeholder="Nhập số điện thoại liên hệ" name="tel" required>
+                        <input type="tel" id="tel" name="tel" placeholder="Nhập số điện thoại liên hệ" value="{{ session('phoneNumber') ?? session('tel') ?? '' }}" required>
                     </div>
 
                     <div class="form-group">
                         <label for="address">Địa chỉ*</label>
-                        <input type="tel"
-                        name="tel"
-                        value="{{ session('phoneNumber') ?? '' }}"
-                        required>
+<input type="text" id="address" name="dia_chi" placeholder="Nhập địa chỉ của bạn" value="{{ session('address') ?? session('dia_chi') ?? '' }}" required>
                     </div>
                 </div>
 
@@ -153,65 +150,72 @@
                 <div class="summary-section">
                     <div>
                         <p>Mã tour : {{ $tour->tourid }}</p>
-
                         <h4>{{ $tour->title }}</h4>
-
                         <p>Ngày khởi hành : {{ $tour->startdate }}</p>
-
                         <p>Ngày kết thúc : {{ $tour->enddate }}</p>
                     </div>
 
                     <div class="summary-item">
-    <span>Người lớn:</span>
-    <div>
-        <span class="quantity__adults">1</span>
-        <span>X</span>
-        <span id="priceAdultDisplay">0 VNĐ</span>
-    </div>
-</div>
-
-<div class="summary-item">
-    <span>Trẻ em:</span>
-    <div>
-        <span class="quantity__children">0</span>
-        <span>X</span>
-        <span id="priceChildDisplay">0 VNĐ</span>
-    </div>
-</div>
-
-<div class="summary-item total-price">
-    <div>
-        <span>Tổng cộng:</span>
-        <span id="totalPrice">0 VNĐ</span>
-    </div>
-</div>
-<div class="summary-item deposit-price">
-    <div>
-        <span style="color: #e53935; font-weight: bold;">Cần thanh toán cọc (30%):</span>
-        <span id="depositPrice" style="color: #e53935; font-weight: bold; font-size: 1.2rem;">0 VNĐ</span>
-    </div>
-</div>
-                    <div class="order-coupon">
-                        <input type="text" name="mã giảm giá" style="width: 65%"><button type="button" style="width: 30%;" class="booking-btn">Áp dụng</button>
+                        <span>Người lớn:</span>
+                        <div>
+                            <span class="quantity__adults">1</span>
+                            <span>X</span>
+                            <span id="priceAdultDisplay">0 VNĐ</span>
+                        </div>
                     </div>
 
-                    <button type="submit" class="booking-btn">Xác Nhận và Thanh Toán</button>
+                    <div class="summary-item">
+                        <span>Trẻ em:</span>
+                        <div>
+                            <span class="quantity__children">0</span>
+                            <span>X</span>
+                            <span id="priceChildDisplay">0 VNĐ</span>
+                        </div>
+                    </div>
+
+                    <div class="summary-item" id="discountRow" style="display: none; color: #28a745; justify-content: space-between; border-top: 1px dashed #ccc; padding-top: 10px;">
+                        <span><i class="fas fa-tags"></i> Giảm giá (<span id="discountPercentDisplay">0</span>%):</span>
+                        <span id="discountAmountDisplay" style="font-weight: bold;">- 0 VNĐ</span>
+                    </div>
+
+                    <div class="summary-item total-price" style="align-items: flex-end;">
+                        <span>Tổng cộng:</span>
+                        <div style="text-align: right;">
+                            <del id="mathFormula" style="font-size: 13px; color: #999; display: none;">0 - 0</del><br>
+                            <span id="totalPrice" style="color: #e53935; font-size: 1.5rem; font-weight: bold;">0 VNĐ</span>
+                        </div>
+                    </div>
+
+                    <div class="summary-item deposit-price">
+                        <div>
+                            <span style="color: #e53935; font-weight: bold;">Cần thanh toán cọc (30%):</span>
+                            <span id="depositPrice" style="color: #e53935; font-weight: bold; font-size: 1.2rem;">0 VNĐ</span>
+                        </div>
+                    </div>
+
+                    <div class="order-coupon">
+                        <input type="text" id="coupon_input" placeholder="Nhập mã giảm giá" style="width: 65%">
+                        <button type="button" id="apply_coupon" style="width: 30%;" class="booking-btn">Áp dụng</button>
+                        
+                        <div id="coupon_msg" class="mt-2 small"></div>
+                        <input type="hidden" name="coupon_code_hidden" id="coupon_code_hidden">
+                    </div>
+
+                    <button type="submit" class="booking-btn mt-3">Xác Nhận và Thanh Toán</button>
                 </div>
             </div>
         </form>
-        
-        <input type="hidden" id="priceAdult" value="{{ $tour->priceadult }}">
-<input type="hidden" id="priceChild" value="{{ $tour->pricechild }}">
     </section>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    // 1. Lấy giá tiền và ép kiểu an toàn (Bảo vệ tuyệt đối khỏi lỗi NaN)
     const rawPriceAdult = "{{ $tour->priceadult ?? 0 }}";
     const rawPriceChild = "{{ $tour->pricechild ?? 0 }}";
+    let discountPercent = 0; // Khởi tạo mặc định giảm 0%
 
     function cleanPrice(priceString) {
         if (!priceString) return 0;
-        // Xóa mọi ký tự chữ, dấu phẩy, dấu chấm, chỉ giữ lại số
         let cleanString = priceString.toString().replace(/[^0-9]/g, "");
         let price = parseInt(cleanString);
         return isNaN(price) ? 0 : price;
@@ -220,42 +224,58 @@ document.addEventListener("DOMContentLoaded", function () {
     const priceAdult = cleanPrice(rawPriceAdult);
     const priceChild = cleanPrice(rawPriceChild);
 
-    // 2. Hàm tính tiền và cập nhật giao diện
     function updatePrice() {
-        // Tìm ô input theo thuộc tính name (chính xác hơn dùng ID)
         let inputAdult = document.querySelector('input[name="numadults"]');
         let inputChild = document.querySelector('input[name="numchildren"]');
 
-        // Ép buộc phải là số. Nếu bị rỗng hoặc lỗi, mặc định người lớn = 1, trẻ em = 0
         let adults = inputAdult && inputAdult.value ? parseInt(inputAdult.value) : 1;
         let children = inputChild && inputChild.value ? parseInt(inputChild.value) : 0;
 
         if (isNaN(adults) || adults < 1) adults = 1;
         if (isNaN(children) || children < 0) children = 0;
 
-        // Tính toán
         let totalAdult = adults * priceAdult;
         let totalChild = children * priceChild;
-        let grandTotal = totalAdult + totalChild;
-        let depositTotal = grandTotal * 0.3; // Tính 30% cọc
+        let subTotal = totalAdult + totalChild; // Tiền gốc (Tạm tính)
 
-        // --- CẬP NHẬT HIỂN THỊ (Dùng querySelectorAll để quét hết mọi chỗ trên trang) ---
-        
-        // Cập nhật số lượng
+        let discountAmount = subTotal * (discountPercent / 100);
+        let grandTotal = subTotal - discountAmount; // Tiền sau giảm
+        let depositTotal = grandTotal * 0.3;
+
+        // Cập nhật text số lượng
         document.querySelectorAll(".quantity__adults").forEach(el => el.innerText = adults);
         document.querySelectorAll(".quantity__children").forEach(el => el.innerText = children);
 
-        // Cập nhật giá tiền
+        // Cập nhật text giá
         document.querySelectorAll("#priceAdultDisplay").forEach(el => el.innerText = totalAdult.toLocaleString('vi-VN') + " VNĐ");
         document.querySelectorAll("#priceChildDisplay").forEach(el => el.innerText = totalChild.toLocaleString('vi-VN') + " VNĐ");
+        
+        // --- XỬ LÝ HIỂN THỊ PHÉP TÍNH ---
+        let discountRow = document.getElementById('discountRow');
+        let mathFormula = document.getElementById('mathFormula');
+
+        if (discountPercent > 0) {
+            // Hiện dòng chữ xanh "Giảm giá"
+            discountRow.style.display = "flex";
+            document.getElementById('discountPercentDisplay').innerText = discountPercent;
+            document.getElementById('discountAmountDisplay').innerText = "- " + discountAmount.toLocaleString('vi-VN') + " VNĐ";
+            
+            // Hiện công thức tính gạch ngang: "Tiền gốc - Tiền giảm"
+            mathFormula.style.display = "inline-block";
+            mathFormula.innerText = subTotal.toLocaleString('vi-VN') + " VNĐ";
+        } else {
+            // Ẩn đi nếu không có mã
+            discountRow.style.display = "none";
+            mathFormula.style.display = "none";
+        }
+
+        // Cập nhật Tổng tiền cuối và cọc
         document.querySelectorAll("#totalPrice").forEach(el => el.innerText = grandTotal.toLocaleString('vi-VN') + " VNĐ");
         document.querySelectorAll("#depositPrice").forEach(el => el.innerText = depositTotal.toLocaleString('vi-VN') + " VNĐ");
     }
 
-    // 3. Xử lý nút Bấm Tăng / Giảm
     document.querySelectorAll(".quantity-btn").forEach(btn => {
         btn.addEventListener("click", function () {
-            // Tìm ô input nằm ngay sát nút vừa bấm
             let input = this.parentNode.querySelector("input");
             if (!input) return;
 
@@ -263,7 +283,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (isNaN(value)) value = 0;
 
             let isAdult = input.name === "numadults";
-            let min = isAdult ? 1 : 0; // Người lớn luôn >= 1
+            let min = isAdult ? 1 : 0; 
 
             if (this.textContent.trim() === "+") {
                 value++;
@@ -272,14 +292,40 @@ document.addEventListener("DOMContentLoaded", function () {
                     value--;
                 }
             }
-
-            input.value = value; // Gắn số mới vào ô input
-            updatePrice();       // Tính lại tiền
+            input.value = value; 
+            updatePrice(); 
         });
     });
 
-    // 4. Chạy hàm tính tiền (Có độ trễ 0.2s để chờ giao diện tải xong hoàn toàn)
+    $('#apply_coupon').click(function() {
+        let code = $('#coupon_input').val();
+        if(!code) return alert("Vui lòng nhập mã");
+
+        $.ajax({
+            url: "{{ route('coupon.check') }}",
+            method: "POST",
+            data: {
+                _token: "{{ csrf_token() }}",
+                coupon_code: code
+            },
+            success: function(res) {
+                if(res.success) {
+                    $('#coupon_msg').html('<span class="text-success fw-bold">' + res.message + '</span>');
+                    $('#coupon_code_hidden').val(code);
+                    discountPercent = res.discount;
+                    updatePrice();
+                } else {
+                    $('#coupon_msg').html('<span class="text-danger">' + res.message + '</span>');
+                    $('#coupon_code_hidden').val('');
+                    discountPercent = 0;
+                    updatePrice();
+                }
+            }
+        });
+    });
+
     setTimeout(updatePrice, 200);
 });
 </script>
+
 @include('Clients.blocks.footer')

@@ -12,38 +12,67 @@
             </div>
         </div>
         <div class="row justify-content-center">
-            @foreach($tours as $tour)
-                @php
-                    $imageName = 'default.jpg';
-                    if (!empty($tour->images)) {
-                        $decoded = json_decode($tour->images, true);
-                        if (is_array($decoded) && count($decoded) > 0) {
-                            $imageName = $decoded[0];
-                        } else {
-                            $imageName = str_replace(['"', '[', ']', '\\'], '', $tour->images);
-                        }
-                    }
-                @endphp
-            <div class="col-xxl-3 col-xl-4 col-md-6">
-                <div class="destination-item block_tours_home" data-aos="fade-up" data-aos-duration="1500" data-aos-offset="50">
-                    <div class="image">
-                        <div class="ratting"><i class="fas fa-star"></i> 4.8</div>
-                        <a href="#" class="heart"><i class="fas fa-heart"></i></a>
-                        <img src="{{ asset('clients/assets/images/gallery-tours/' . $imageName) }}" alt="{{ $tour->title }}">
-                    </div>
-                    <div class="content">
-                        <span class="location"><i class="fal fa-map-marker-alt"></i> {{ $tour->destination }}</span>
-                        <h5><a href="{{ route('tour-detail', ['id' => $tour->tourid]) }}">{{ Str::limit($tour->title, 45) }}</a></h5>
-                        <span class="time">{{ $tour->time }}</span>
-                    </div>
-                    <div class="destination-footer">
-                        <span class="price"><span>{{ number_format($tour->priceadult, 0, ',', '.') }}</span> VND/người</span>
-                        <a href="{{ route('tour-detail', ['id' => $tour->tourid]) }}" class="read-more">Đặt Ngay <i class="fal fa-angle-right"></i></a>
-                    </div>
+    @foreach($tours as $tour)
+        @php
+            // Xử lý ảnh (Code gốc của bạn)
+            $imageName = 'default.jpg';
+            if (!empty($tour->images)) {
+                $decoded = json_decode($tour->images, true);
+                if (is_array($decoded) && count($decoded) > 0) {
+                    $imageName = $decoded[0];
+                } else {
+                    $imageName = str_replace(['"', '[', ']', '\\'], '', $tour->images);
+                }
+            }
+
+            // Xử lý kiểm tra trạng thái tour
+            $isPast = \Carbon\Carbon::parse($tour->startdate)->endOfDay()->isPast();
+            $isFull = $tour->quantity <= 0;
+            $isClosed = $tour->availability == 0;
+            $isUnavailable = $isPast || $isFull || $isClosed;
+        @endphp
+        
+        <div class="col-xxl-3 col-xl-4 col-md-6">
+            <div class="destination-item block_tours_home" data-aos="fade-up" data-aos-duration="1500" data-aos-offset="50">
+                
+                <div class="image" style="position: relative;">
+@if($isPast)
+                        <span class="badge bg-secondary" style="position: absolute; bottom: 15px; left: 15px; z-index: 2; padding: 5px 10px; font-weight: normal;">Đã khởi hành</span>
+                    @elseif($isFull)
+                        <span class="badge bg-danger" style="position: absolute; bottom: 15px; left: 15px; z-index: 2; padding: 5px 10px; font-weight: normal;">Đã hết chỗ</span>
+                    @elseif($isClosed)
+                        <span class="badge bg-warning text-dark" style="position: absolute; bottom: 15px; left: 15px; z-index: 2; padding: 5px 10px; font-weight: normal;">Tạm ngưng</span>
+                    @endif
+
+                    <div class="ratting"><i class="fas fa-star"></i> 4.8</div>
+                    <a href="#" class="heart"><i class="fas fa-heart"></i></a>
+                    <img src="{{ asset('clients/assets/images/gallery-tours/' . $imageName) }}" alt="{{ $tour->title }}">
                 </div>
+                
+                <div class="content">
+                    <span class="location"><i class="fal fa-map-marker-alt"></i> {{ $tour->destination }}</span>
+                    <h5><a href="{{ route('tour-detail', ['id' => $tour->tourid]) }}">{{ Str::limit($tour->title, 45) }}</a></h5>
+                    <span class="time">{{ $tour->time }}</span>
+                </div>
+                
+                <div class="destination-footer">
+                    <span class="price"><span>{{ number_format($tour->priceadult, 0, ',', '.') }}</span> VND/người</span>
+                    
+                    @if($isUnavailable)
+                        <a href="{{ route('tour-detail', ['id' => $tour->tourid]) }}" class="read-more" style="color: #888;">
+                            Xem chi tiết <i class="fal fa-info-circle"></i>
+                        </a>
+                    @else
+                        <a href="{{ route('tour-detail', ['id' => $tour->tourid]) }}" class="read-more">
+                            Đặt Ngay <i class="fal fa-angle-right"></i>
+                        </a>
+                    @endif
+                </div>
+                
             </div>
-            @endforeach
         </div>
+    @endforeach
+</div>
     </div>
 </section>
 
@@ -254,62 +283,75 @@
     </div>
 </section>
 
-<section class="testimonials-area py-100 rel z-1">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+<section class="premium-testimonials-section py-120 rel z-1 overflow-hidden">
+    <div class="bg-shape-gradient"></div>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-10">
-                <div class="section-title text-center mb-60">
-                    <h2>Khách Hàng Nói Gì Về GoViet</h2>
-                    <p>Hàng ngàn khách hàng đã tin tưởng và lựa chọn GoViet cho hành trình của mình</p>
+            <div class="col-lg-8">
+                <div class="section-title text-center mb-60" data-aos="fade-up">
+                    <span class="upper-title">Hàng ngàn khách hàng hài lòng</span>
+                    <h2 class="display-4 fw-bold">Chia Sẻ Từ Những <span class="text-gradient">Nhà Lữ Hành</span></h2>
                 </div>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-lg-4 col-md-6">
-                <div class="testimonial-card text-center mb-30">
-                    <div class="ratting mb-15">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    </div>
-                    <div class="content">
-                        <p>"Chuyến du lịch Nha Trang của tôi thật tuyệt vời. Dịch vụ tốt, lịch trình hợp lý và hướng dẫn viên rất nhiệt tình."</p>
-                    </div>
-                    <div class="author-info mt-15">
-                        <h6>Nguyễn Minh Anh</h6>
-                    </div>
-                </div>
-            </div>
+        <div class="swiper testimonial-swiper" data-aos="fade-up" data-aos-delay="200">
+            <div class="swiper-wrapper">
+                @forelse($testimonials as $item)
+                <div class="swiper-slide">
+                    <div class="premium-testimonial-card">
+                        <div class="quote-icon"><i class="fas fa-quote-right"></i></div>
+                        
+                        <div class="card-header-meta">
+                            <div class="stars">
+                                @for($i=1; $i<=5; $i++)
+                                    <i class="fas fa-star {{ $i <= $item->rating ? 'active' : '' }}"></i>
+                                @endfor
+                            </div>
+                            <span class="verified-tag"><i class="fas fa-check-circle"></i> Đã trải nghiệm</span>
+                        </div>
 
-            <div class="col-lg-4 col-md-6">
-                <div class="testimonial-card text-center mb-30">
-                    <div class="ratting mb-15">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    </div>
-                    <div class="content">
-                        <p>"Đặt tour trên GoViet rất nhanh và tiện lợi. Giá cả rõ ràng, không phát sinh chi phí."</p>
-                    </div>
-                    <div class="author-info mt-15">
-                        <h6>Trần Hoàng Nam</h6>
-                    </div>
-                </div>
-            </div>
+                        <div class="main-comment">
+                            <p>"{{ $item->comment }}"</p>
+                        </div>
 
-            <div class="col-lg-4 col-md-6">
-                <div class="testimonial-card text-center mb-30">
-                    <div class="ratting mb-15">
-                        <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                    </div>
-                    <div class="content">
-                        <p>"Gia đình tôi đã có chuyến đi Đà Lạt rất đáng nhớ. Chắc chắn sẽ tiếp tục đặt tour tại GoViet."</p>
-                    </div>
-                    <div class="author-info mt-15">
-                        <h6>Lê Thu Hà</h6>
+                        <div class="card-footer-user">
+                            <div class="user-avatar">
+                                <img src="{{ $item->avatar ? asset('uploads/users/'.$item->avatar) : asset('assets/images/default-user.jpg') }}" alt="{{ $item->username }}">
+                            </div>
+                            <div class="user-details">
+                                <h6 class="name">{{ $item->username }}</h6>
+                                <p class="tour-info">{{ $item->tour_name }} — <span class="location">{{ $item->destination }}</span></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                @empty
+                <p class="text-center">Đang cập nhật đánh giá...</p>
+                @endforelse
             </div>
+            
+            <div class="swiper-pagination mt-40"></div>
         </div>
     </div>
 </section>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script>
+    new Swiper('.testimonial-swiper', {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        loop: true,
+        autoplay: { delay: 4000, disableOnInteraction: false },
+        pagination: { el: ".swiper-pagination", clickable: true },
+        breakpoints: {
+            768: { slidesPerView: 2 },
+            1200: { slidesPerView: 3 }
+        }
+    });
+</script>
 
 <section class="cta-area pt-100 rel z-1">
     <div class="container-fluid">
@@ -359,64 +401,58 @@
             </div>
         </div>
         <div class="row justify-content-center">
-            <div class="col-xl-4 col-md-6">
-                <div class="blog-item" data-aos="fade-up" data-aos-duration="1500" data-aos-offset="50">
-                    <div class="content">
-                        <a href="{{ route('blogs') }}" class="category">Du lịch</a>
-                        <h5><a href="{{ route('blog-details') }}">Hướng dẫn chi tiết lập kế hoạch cho kỳ nghỉ mơ ước cùng GOVIET</a></h5>
-                        <ul class="blog-meta">
-                            <li><i class="far fa-calendar-alt"></i> <a href="#">25 Tháng 2, 2025</a></li>
-                            <li><i class="far fa-comments"></i> <a href="#">Bình luận (5)</a></li>
-                        </ul>
-                    </div>
-                    <div class="image">
-                        <img src="{{ asset('clients/assets/images/blog/blog1.jpg') }}" alt="Blog">
-                    </div>
-                    <a href="{{ route('blog-details') }}" class="theme-btn">
-                        <span data-hover="Đặt ngay">Xem thêm</span>
-                        <i class="fal fa-arrow-right"></i>
+
+@foreach($blogs as $blog)
+
+    <div class="col-xl-4 col-md-6">
+        <div class="blog-item" data-aos="fade-up">
+
+            <div class="content">
+
+                {{-- CATEGORY --}}
+                <a href="{{ route('blogs', ['category' => $blog->category_name]) }}" class="category">
+                    {{ $blog->category_name }}
+                </a>
+
+                {{-- TITLE --}}
+                <h5>
+                    <a href="{{ route('blog.detail', $blog->slug) }}">
+                        {{ $blog->title }}
                     </a>
-                </div>
+                </h5>
+
+                {{-- META --}}
+                <ul class="blog-meta">
+                    <li>
+                        <i class="far fa-calendar-alt"></i>
+                        {{ $blog->created_at->format('d/m/Y') }}
+                    </li>
+
+                    <li>
+                        <i class="far fa-eye"></i>
+                        {{ $blog->views ?? 0 }}
+                    </li>
+                </ul>
+
             </div>
-            <div class="col-xl-4 col-md-6">
-                <div class="blog-item" data-aos="fade-up" data-aos-delay="50" data-aos-duration="1500" data-aos-offset="50">
-                    <div class="content">
-                        <a href="{{ route('blogs') }}" class="category">Du lịch</a>
-                        <h5><a href="{{ route('blog-details') }}">Những cuộc phiêu lưu khó quên: Trải nghiệm đáng thử trong danh sách của bạn</a></h5>
-                        <ul class="blog-meta">
-                            <li><i class="far fa-calendar-alt"></i> <a href="#">25 Tháng 2, 2024</a></li>
-                            <li><i class="far fa-comments"></i> <a href="#">Bình luận (5)</a></li>
-                        </ul>
-                    </div>
-                    <div class="image">
-                        <img src="{{ asset('clients/assets/images/blog/blog2.jpg') }}" alt="Blog">
-                    </div>
-                    <a href="{{ route('blog-details') }}" class="theme-btn">
-                        <span data-hover="Đặt ngay">Xem thêm</span>
-                        <i class="fal fa-arrow-right"></i>
-                    </a>
-                </div>
+
+            {{-- IMAGE --}}
+            <div class="image">
+                <img src="{{ asset($blog->image ?? 'clients/assets/images/blog/blog1.jpg') }}">
             </div>
-            <div class="col-xl-4 col-md-6">
-                <div class="blog-item" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1500" data-aos-offset="50">
-                    <div class="content">
-                        <a href="{{ route('blogs') }}" class="category">Du lịch</a>
-                        <h5><a href="{{ route('blog-details') }}">Khám phá văn hóa và ẩm thực: Những điểm đến tốt nhất cho tín đồ ăn uống</a></h5>
-                        <ul class="blog-meta">
-                            <li><i class="far fa-calendar-alt"></i> <a href="#">25 Tháng 2, 2024</a></li>
-                            <li><i class="far fa-comments"></i> <a href="#">Bình luận (5)</a></li>
-                        </ul>
-                    </div>
-                    <div class="image">
-                        <img src="{{ asset('clients/assets/images/blog/blog3.jpg') }}" alt="Blog">
-                    </div>
-                    <a href="{{ route('blog-details') }}" class="theme-btn">
-                        <span data-hover="Đặt ngay">Xem thêm</span>
-                        <i class="fal fa-arrow-right"></i>
-                    </a>
-                </div>
-            </div>
+
+            {{-- BUTTON --}}
+            <a href="{{ route('blog.detail', $blog->slug) }}" class="theme-btn">
+                <span>Xem thêm</span>
+                <i class="fal fa-arrow-right"></i>
+            </a>
+
         </div>
+    </div>
+
+@endforeach
+
+</div>
     </div>
 </section>
 

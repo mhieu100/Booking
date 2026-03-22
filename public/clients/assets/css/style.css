@@ -6874,7 +6874,18 @@ h6, .h6, blockquote {
           font-size: 22px; } }
       @media only screen and (max-width: 375px) {
         .blog-item .content h5 {
-          font-size: 20px; } }
+          font-size: 18px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin-bottom: 15px;
+    color: #111;
+    /* Ép tiêu đề trong 2 dòng */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    height: 50px; /* Cố định chiều cao để hàng luôn thẳng */
+    transition: 0.3s; } }
   .blog-item .theme-btn {
     margin-top: 30px; }
     .blog-item .theme-btn > span:before {
@@ -6972,6 +6983,23 @@ h6, .h6, blockquote {
         margin-top: 5px;
         font-size: 14px;
         padding: 4px 20px; }
+
+        .blog-item .image {
+    width: 100%;
+    aspect-ratio: 16 / 12; /* Tạo tỉ lệ khung hình vàng cho blog */
+    overflow: hidden;
+    border-radius: 12px; /* Bo góc nhẹ cho hiện đại */
+    margin-bottom: 20px;
+}
+
+.blog-item .image img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover; /* QUAN TRỌNG: Giúp ảnh lấp đầy khung mà không bị bóp méo */
+    object-position: center; /* Luôn lấy phần chính giữa của ảnh */
+    transition: transform 0.5s ease;
+}
+
 
 /* Blog Details */
 .blog-details-content h1, .blog-details-content h2, .blog-details-content h3, .blog-details-content h4, .blog-details-content h5 {
@@ -8533,3 +8561,91 @@ color:#ffb400;
 .small.text-muted{
 display:none;
 }
+
+
+
+
+.premium-testimonials-section {
+    position: relative;
+    background: #fcfcfc;
+}
+
+.text-gradient {
+    background: linear-gradient(90deg, #ff5e14, #ffbc00);
+    -webkit-background-clip: text;
+
+}
+
+.upper-title {
+    color: #ff5e14;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-size: 14px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* Thẻ Card phong cách Apple */
+.premium-testimonial-card {
+    background: #fff;
+    padding: 45px 35px;
+    border-radius: 24px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+    border: 1px solid #f0f0f0;
+    position: relative;
+    height: 100%;
+    transition: 0.4s;
+}
+
+.premium-testimonial-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 60px rgba(255, 94, 20, 0.12);
+    border-color: #ff5e14;
+}
+
+.quote-icon {
+    position: absolute;
+    top: 30px;
+    right: 35px;
+    font-size: 40px;
+    color: #f1f1f1;
+}
+
+.stars i { color: #e0e0e0; font-size: 12px; margin-right: 2px; }
+.stars i.active { color: #ffbc00; }
+
+.verified-tag {
+    display: block;
+    font-size: 11px;
+    color: #28a745;
+    font-weight: 700;
+    margin-top: 5px;
+}
+
+.main-comment p {
+    font-size: 17px;
+    line-height: 1.8;
+    color: #444;
+    margin: 25px 0;
+    font-style: italic;
+}
+
+.card-footer-user { display: flex; align-items: center; }
+
+.user-avatar img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 15px;
+    border: 3px solid #fff;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.user-details .name { font-size: 18px; font-weight: 700; color: #111; margin: 0; }
+.user-details .tour-info { font-size: 13px; color: #888; margin: 0; }
+.user-details .location { color: #ff5e14; font-weight: 600; }
+
+/* Custom Pagination */
+.swiper-pagination-bullet-active { background: #ff5e14 !important; width: 25px; border-radius: 5px; }

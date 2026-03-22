@@ -55,35 +55,57 @@
                             
                         @else
                             @foreach($tours as $tour)
-                            <div class="col-xl-4 col-md-6">
-                                <div class="destination-item tour-grid style-three bgc-lighter block_tours" data-aos="fade-up" data-aos-duration="1500" data-aos-offset="50">
-                                    <div class="image">
-                                        <span class="badge bgc-pink">Featured</span>
-                                        <a href="#" class="heart"><i class="fas fa-heart"></i></a>
-                                        <img src="{{ asset('clients/assets/images/gallery-tours/' . ($tour->display_image ?? 'default.jpg')) }}" alt="{{ $tour->title }}">
-                                    </div>
-                                    <div class="content">
-                                        <div class="destination-header">
-                                            <span class="location"><i class="fal fa-map-marker-alt"></i>{{ $tour->destination }}</span>
-                                            <div class="ratting">
-                                                <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
-                                            </div>
-                                        </div>
-                                        <h6><a href="{{ route('tour-detail', $tour->tourid) }}">{{ $tour->title }}</a></h6>
-                                        <ul class="blog-meta">
-                                            <li><i class="far fa-clock"></i> {{ $tour->time }}</li>
-                                            <li><i class="far fa-user"></i> {{ $tour->quantity }}</li>
-                                        </ul>
-                                        <div class="destination-footer">
-                                            <span class="price"><span>{{ number_format($tour->priceadult, 0, ',', '.') }} VND</span>/Người</span>
-                                            <a href="{{ route('tour-detail', $tour->tourid) }}" class="theme-btn style-two style-three">
-                                                <i class="fal fa-arrow-right"></i>
-                                            </a>
-                                        </div>  
-                                    </div>
-                                </div>
-                            </div>
-                            @endforeach
+@php
+    // Tính toán trạng thái
+    $isPast = \Carbon\Carbon::parse($tour->startdate)->endOfDay()->isPast();
+    $isFull = $tour->quantity <= 0;
+    $isClosed = $tour->availability == 0;
+@endphp
+
+<div class="col-xl-4 col-md-6">
+    <div class="destination-item tour-grid style-three bgc-lighter block_tours" data-aos="fade-up" data-aos-duration="1500" data-aos-offset="50">
+        
+        <div class="image">
+            @if($isPast)
+                <span class="badge bg-secondary">Đã khởi hành</span>
+            @elseif($isFull)
+                <span class="badge bg-danger">Đã hết chỗ</span>
+            @elseif($isClosed)
+                <span class="badge bg-warning text-dark">Tạm ngưng</span>
+            @else
+                <span class="badge bgc-pink">Mở bán</span> @endif
+
+            <a href="#" class="heart"><i class="fas fa-heart"></i></a>
+            <img src="{{ asset('clients/assets/images/gallery-tours/' . ($tour->images ?? 'default.jpg')) }}" alt="{{ $tour->title }}">
+        </div>
+        
+        <div class="content">
+            <div class="destination-header">
+                <span class="location"><i class="fal fa-map-marker-alt"></i>{{ $tour->destination }}</span>
+                <div class="ratting">
+                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                </div>
+            </div>
+            
+            <h6><a href="{{ route('tour-detail', $tour->tourid) }}">{{ $tour->title }}</a></h6>
+            
+            <ul class="blog-meta">
+                <li><i class="far fa-clock"></i> {{ $tour->time }}</li>
+                <li><i class="far fa-user"></i> {{ $isFull ? '0' : $tour->quantity }}</li>
+            </ul>
+            
+            <div class="destination-footer">
+                <span class="price"><span>{{ number_format($tour->priceadult, 0, ',', '.') }} VND</span>/Người</span>
+                
+                <a href="{{ route('tour-detail', $tour->tourid) }}" class="theme-btn style-two style-three">
+                    <i class="fal fa-arrow-right"></i>
+                </a>
+            </div>  
+            
+        </div>
+    </div>
+</div>
+@endforeach
                         @endif
 
                     </div>

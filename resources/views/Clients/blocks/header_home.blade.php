@@ -5,6 +5,7 @@
 <meta name="description" content="Go Viet - Đặt Tour & Du Lịch Chuyên Nghiệp">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="csrf-token" content="{{ csrf_token() }}">
 
 <title>Go Viet - Đặt Tour & Du Lịch Chuyên Nghiệp</title>
 <link rel="shortcut icon" href="{{ asset('clients/assets/images/logos/logo.png') }}" type="image/x-icon">
@@ -97,7 +98,7 @@
                                 </li>
                                 <li class="current"><a href="{{ route('destination') }}">Điểm Đến</a></li>
                                 <li class="current"><a href="{{ route('contact') }}">Liên Hệ</a></li>
-                                <li><a href="{{ route('blogs') }}">Tin Tức</a></li>
+                                <li class="{{ request()->is('Blogs*') ? 'current' : '' }}"><a href="{{ route('blogs') }}">Tin Tức</a></li>
                             </ul>
                         </div>
                     </nav>

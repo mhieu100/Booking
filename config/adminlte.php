@@ -335,10 +335,26 @@ return [
         'url' => 'admin/users',
         'icon' => 'fas fa-users'
         ],
+[
+    'text' => 'Quản lý đánh giá',
+    'route' => 'admin.reviews.index', // Dùng CHÍNH XÁC tên này
+    'icon' => 'fas fa-comments'
+],
+[
+            'text' => 'Quản lý mã giảm giá',
+            'route' => 'admin.promotions.index',
+            'icon' => 'fas fa-ticket-alt', // Icon hình cái vé cực hợp lý
+        ],
+
         [
-            'text' => 'blog',
-            'url' => 'admin/blog',
-            'can' => 'manage-blog',
+            'text' => 'Quản lý Bài viết',
+            'route' => 'admin.blogs.index',
+            'icon' => 'fas fa-ticket-alt',
+        ],
+                [
+            'text' => 'Chat',
+            'route' => 'admin.chats.index',
+            'icon' => 'fas fa-ticket-alt',
         ],
         [
             'text' => 'pages',
